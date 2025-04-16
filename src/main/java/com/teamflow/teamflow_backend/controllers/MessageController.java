@@ -2,6 +2,7 @@ package com.teamflow.teamflow_backend.controllers;
 
 import com.teamflow.teamflow_backend.models.Message;
 import com.teamflow.teamflow_backend.services.MessageService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +28,11 @@ public class MessageController {
         return messageService.getMessageById(id);
     }
 
+    @GetMapping("/channel/{channelId}")
+    public List<Message> getMessagesByChannel(@PathVariable Long channelId) {
+        return messageService.getAllMessagesByChannel(channelId);
+    }
+
     @PostMapping
     public Message createMessage(@RequestBody Message message) {
         return messageService.createMessage(message);
@@ -38,7 +44,10 @@ public class MessageController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteMessage(@PathVariable Long id) {
-        messageService.deleteMessage(id);
+    public ResponseEntity<Void> deleteMessage(@PathVariable Long id) {
+        if (messageService.deleteMessage(id)) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

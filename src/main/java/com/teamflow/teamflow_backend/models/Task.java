@@ -29,7 +29,6 @@ public class Task {
     private String title;
     private String description;
 
-    // Verwijzing naar de user story waaraan deze task gekoppeld is.
     @ManyToOne(optional = true)
     @JoinColumn(name = "user_story_id", nullable = true)
     @OnDelete(action = OnDeleteAction.SET_NULL)

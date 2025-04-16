@@ -19,6 +19,10 @@ public class MessageService {
         return messageRepository.findAll();
     }
 
+    public List<Message> getAllMessagesByChannel(Long channelId) {
+        return messageRepository.findByChannelId(channelId);
+    }
+
     public Message getMessageById(Long id) {
         return messageRepository.findById(id).orElse(null);
     }
@@ -49,5 +53,4 @@ public class MessageService {
         return false;
     }
 
-    // Eventueel extra methodes, bijv. getMessagesForEpic, getMessagesForUserStory, etc.
 }

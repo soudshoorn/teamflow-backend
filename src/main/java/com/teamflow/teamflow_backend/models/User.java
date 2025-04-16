@@ -23,5 +23,4 @@ public class User {
 
     private String username;
     private String displayName;
-    // evt. password, email etc.
 }

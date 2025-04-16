@@ -2,6 +2,7 @@ package com.teamflow.teamflow_backend.controllers;
 
 import com.teamflow.teamflow_backend.models.Epic;
 import com.teamflow.teamflow_backend.services.EpicService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +39,10 @@ public class EpicController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteEpic(@PathVariable Long id) {
-        epicService.deleteEpic(id);
+    public ResponseEntity<Void> deleteEpic(@PathVariable Long id) {
+        if (epicService.deleteEpic(id)) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

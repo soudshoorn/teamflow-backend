@@ -1,35 +1,41 @@
 package com.teamflow.teamflow_backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import lombok.Data;
+import jakarta.persistence.Column;
+import jakarta.persistence.OneToMany;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import java.util.Set;
+import java.util.HashSet;
 
 @Entity
-@Table(name = "user_stories")
-@Data
+@Table(name = "channels")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserStory {
+public class Channel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
+    @Column(nullable = false, unique = true)
+    private String name;
+
     private String description;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "epic_id", nullable = true)
-    @OnDelete(action = OnDeleteAction.SET_NULL)
-    private Epic epic;
+    @Builder.Default
+    @OneToMany(mappedBy = "channel")
+    @JsonIgnore
+    private Set<Message> messages = new HashSet<>();
 }

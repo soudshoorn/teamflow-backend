@@ -2,6 +2,7 @@ package com.teamflow.teamflow_backend.controllers;
 
 import com.teamflow.teamflow_backend.models.UserStory;
 import com.teamflow.teamflow_backend.services.UserStoryService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +39,10 @@ public class UserStoryController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUserStory(@PathVariable Long id) {
-        userStoryService.deleteUserStory(id);
+    public ResponseEntity<Void> deleteUserStory(@PathVariable Long id) {
+        if (userStoryService.deleteUserStory(id)) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }
